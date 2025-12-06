@@ -16,6 +16,9 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
+    // JSON helpers
+    implementation 'com.google.code.gson:gson:2.11.0'
+
     // PotoFlux
     implementation name: 'PotoFlux-5.6'
 }
