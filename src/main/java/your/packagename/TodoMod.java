@@ -6,11 +6,11 @@ import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import your.packagename.tabs.Tabs;
 
-@Mod(modId = ExampleMod.MOD_ID)
-public class ExampleMod {
-    public static final String MOD_ID = "yourmodid";
+@Mod(modId = TodoMod.MOD_ID)
+public class TodoMod {
+    public static final String MOD_ID = "todomod";
 
-    public ExampleMod() {
+    public TodoMod() {
         ModEventBus modEventBus = PotoFluxLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(RegisterTabsEvent.class, this::onRegisterTabs);

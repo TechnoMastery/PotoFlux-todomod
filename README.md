@@ -1,2 +1,2 @@
-# PotoFlux mod template
-An easy way to get a start for making PotoFlux mods
+# PotoFlux TodoMod
+A mod that adds a Todo tab to PotoFlux !
