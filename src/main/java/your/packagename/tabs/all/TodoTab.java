@@ -1,5 +1,7 @@
 package your.packagename.tabs.all;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
@@ -9,10 +11,19 @@ import your.packagename.TodoMod;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.minheur.potoflux.Functions.escapeHtml;
 import static net.minheur.potoflux.Functions.removeProhibitedChar;
 
 public class TodoTab extends BaseTab {
@@ -116,8 +127,69 @@ public class TodoTab extends BaseTab {
         listPanel.removeAll();
 
         if (todos.isEmpty()) {
-
+            JLabel empty = new JLabel(Translations.get("tabs.todo.empty_list")); // TODO
+            listPanel.add(empty);
+        } else {
+            for (TodoItem todo : todos) if (todo.pinned) addTodoToList(todo);
+            for (TodoItem todo : todos) if (!todo.pinned) addTodoToList(todo);
         }
+
+        listPanel.revalidate();
+        listPanel.repaint();
+    }
+
+    public void addTodoToList(TodoItem todo) {
+        JPanel row = new JPanel(new BorderLayout());
+        row.setOpaque(false);
+        row.setBorder(new EmptyBorder(4, 0, 4, 0));
+
+        JCheckBox check = new JCheckBox();
+        check.setSelected(false);
+
+        JLabel label = new JLabel(todo.text);
+        updateLabelStyle(label, todo.done);
+
+        JButton settings = new JButton("⚙");
+        settings.setMargin(new Insets(2, 6, 2, 6));
+        settings.addActionListener(e -> openTodoSettings(todo));
+
+        check.addItemListener(e -> {
+            todo.done = (e.getStateChange() == ItemEvent.SELECTED);
+            updateLabelStyle(label, todo.done);
+            saveTodos();
+        });
+
+        JPanel left = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        left.setOpaque(false);
+        left.add(check);
+        left.add(label);
+
+        JPanel right = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+        right.setOpaque(false);
+        right.add(settings);
+
+        row.add(left, BorderLayout.WEST);
+        row.add(right, BorderLayout.EAST);
+        listPanel.add(row);
+    }
+
+    private void updateLabelStyle(JLabel label, boolean done) {
+        if (done) {
+            label.setText("<html><strike>" + escapeHtml(label.getText()) + "</strike></html>");
+            label.setFont(label.getFont().deriveFont(Font.ITALIC));
+        } else {
+            label.setText(label.getText().replaceAll("<[^>]+>", ""));
+            label.setText(escapeHtml(label.getText()));
+            label.setFont(label.getFont().deriveFont(Font.PLAIN));
+        }
+    }
+
+    private void loadTodos() {
+        if (Files.exists(saveFile)) try (Reader reader = new InputStreamReader(new FileInputStream(saveFile.toFile()), StandardCharsets.UTF_8)) {
+            Type listType = new TypeToken<List<TodoItem>>(){}.getType();
+            List<TodoItem> loaded = new Gson().fromJson(reader, listType);
+            if (loaded != null) todos.addAll(loaded);
+        } catch (IOException e) { e.printStackTrace(); }
     }
 
     private static class TodoItem {
