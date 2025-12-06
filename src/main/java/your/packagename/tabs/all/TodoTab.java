@@ -2,7 +2,6 @@ package your.packagename.tabs.all;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.InputWithCheckboxResult;
@@ -12,10 +11,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ItemEvent;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -60,14 +56,14 @@ public class TodoTab extends BaseTab {
         top.add(Box.createVerticalStrut(10));
 
         // -- add button --
-        JButton addButton = new JButton(Translations.get("tabs.todo.button_add"));
+        JButton addButton = new JButton(Translations.get("tabs.todo.button_add")); // TODO
         addButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         addButton.addActionListener(e -> addNewTodo());
         top.add(addButton);
         top.add(Box.createVerticalStrut(10));
 
         // -- remove all button --
-        JButton clearButton = new JButton(Translations.get("tabs.todo.button_clear"));
+        JButton clearButton = new JButton(Translations.get("tabs.todo.button_clear")); // TODO
         clearButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         clearButton.addActionListener(e -> clearAll());
         top.add(clearButton);
@@ -113,14 +109,14 @@ public class TodoTab extends BaseTab {
         text = removeProhibitedChar(text);
 
         if (!text.trim().isEmpty()) {
-            todos.add(0, new net.minheur.potoflux.screen.tabs.all.TodoTab.TodoItem(text.trim(), false, pinned));
+            todos.add(0, new TodoItem(text.trim(), false, pinned));
             saveTodos();
             refreshList();
         } else showTodoError();
     }
 
     private void showTodoError() {
-        JOptionPane.showMessageDialog(PANEL, Translations.get("tabs.todo.no_empty"));
+        JOptionPane.showMessageDialog(PANEL, Translations.get("tabs.todo.no_empty")); // TODO
     }
 
     private void refreshList() {
@@ -190,6 +186,100 @@ public class TodoTab extends BaseTab {
             List<TodoItem> loaded = new Gson().fromJson(reader, listType);
             if (loaded != null) todos.addAll(loaded);
         } catch (IOException e) { e.printStackTrace(); }
+    }
+
+    private void saveTodos() {
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(saveFile.toFile()), StandardCharsets.UTF_8)) {
+            new Gson().toJson(todos, writer);
+        } catch (IOException e) { e.printStackTrace(); }
+    }
+
+    private void openTodoSettings(TodoItem todo) {
+        // --- modal window ---
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(PANEL), Translations.get("tabs.todo.edit.title"), true); // TODO
+        dialog.setLayout(new BorderLayout());
+        dialog.setSize(300, 260);
+        dialog.setLocationRelativeTo(PANEL);
+
+        JPanel content = new JPanel();
+        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+        content.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        // task title
+        JLabel title = new JLabel(todo.text);
+        title.setFont(new Font("Consolas", Font.BOLD, 16));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(title);
+        content.add(Box.createVerticalStrut(10));
+
+        // checkbox - copy actual state
+        JCheckBox doneCheck = new JCheckBox(Translations.get("tabs.todo.done")); // TODO
+        doneCheck.setSelected(todo.done);
+        doneCheck.setAlignmentX(Component.CENTER_ALIGNMENT);
+        doneCheck.add(Box.createVerticalStrut(10));
+
+        // pine check
+        JCheckBox pineCheck = new JCheckBox(Translations.get("tabs.todo.pinned")); // TODO
+        pineCheck.setSelected(todo.pinned);
+        pineCheck.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(pineCheck);
+        content.add(Box.createVerticalStrut(10));
+
+        // rename button
+        JButton renameButton = new JButton(Translations.get("tabs.todo.rename")); // TODO
+        renameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        renameButton.addActionListener(e -> {
+            String newName = JOptionPane.showInputDialog(dialog, Translations.get("tabs.todo.rename.prompt"), todo.text); // TODO
+            newName = removeProhibitedChar(newName);
+            if (!newName.trim().isEmpty()) title.setText(escapeHtml(newName.trim()));
+        });
+        content.add(renameButton);
+        content.add(Box.createVerticalStrut(10));
+
+        // delete button
+        JButton deleteButton = new JButton(Translations.get("tabs.todo.delete")); // TODO
+        deleteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        deleteButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(dialog,
+                    Translations.get("tabs.todo.delete.confirm") + "\n\"" + todo.text + "\" ?", // TODO
+                    Translations.get("tabs.todo.delete.title"), // TODO
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            if (confirm == JOptionPane.OK_OPTION) {
+                todos.remove(todo);
+                saveTodos();
+                refreshList();
+                dialog.dispose();
+            }
+        });
+        content.add(deleteButton);
+
+        // add all to dialog
+        dialog.add(content, BorderLayout.CENTER);
+
+        // ok - cancel
+        JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton okButton = new JButton(Translations.get("common.validate")); // TODO
+        JButton cancelButton = new JButton(Translations.get("common.cancel")); // TODO
+
+        okButton.addActionListener(e -> {
+            todo.text = title.getText();
+            todo.done = doneCheck.isSelected();
+            todo.pinned = pineCheck.isSelected();
+            saveTodos();
+            refreshList();
+            dialog.dispose();
+        });
+
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        bottom.add(okButton);
+        bottom.add(cancelButton);
+
+        dialog.add(bottom, BorderLayout.SOUTH);
+
+        dialog.getRootPane().setDefaultButton(okButton);
+        dialog.setVisible(true);
     }
 
     private static class TodoItem {
