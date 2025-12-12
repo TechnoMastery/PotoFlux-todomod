@@ -1,0 +1,9 @@
+{
+  "tabs.todo.button_add": "Ajouter un todo",
+  "tabs.todo.button_clear": "Supprimer tout",
+  "tabs.todo.new.name": "Nouveau todo: ",
+  "tabs.todo.new.pinned": "Épingler le todo",
+  "tabs.todo.new.title": "Ajouter",
+  "tabs.todo.no_empty": "Le todo ne peut pas être vide.",
+  "tabs.todo.empty_list": "La liste est vide !"
+}

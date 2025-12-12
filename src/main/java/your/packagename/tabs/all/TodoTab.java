@@ -56,14 +56,14 @@ public class TodoTab extends BaseTab {
         top.add(Box.createVerticalStrut(10));
 
         // -- add button --
-        JButton addButton = new JButton(Translations.get("tabs.todo.button_add")); // TODO
+        JButton addButton = new JButton(Translations.get("tabs.todo.button_add"));
         addButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         addButton.addActionListener(e -> addNewTodo());
         top.add(addButton);
         top.add(Box.createVerticalStrut(10));
 
         // -- remove all button --
-        JButton clearButton = new JButton(Translations.get("tabs.todo.button_clear")); // TODO
+        JButton clearButton = new JButton(Translations.get("tabs.todo.button_clear"));
         clearButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         clearButton.addActionListener(e -> clearAll());
         top.add(clearButton);
@@ -98,7 +98,7 @@ public class TodoTab extends BaseTab {
     }
 
     private void addNewTodo() {
-        InputWithCheckboxResult input = InputWithCheckboxResult.showInputWithCheckboxDialog(PANEL, Translations.get("tabs.todo.new.title"), Translations.get("tabs.todo.new.name"), Translations.get("tabs.todo.new.pinned")); // TODO
+        InputWithCheckboxResult input = InputWithCheckboxResult.showInputWithCheckboxDialog(PANEL, Translations.get("tabs.todo.new.title"), Translations.get("tabs.todo.new.name"), Translations.get("tabs.todo.new.pinned"));
         String text = input.text;
         boolean pinned = input.pinned;
 
@@ -116,14 +116,14 @@ public class TodoTab extends BaseTab {
     }
 
     private void showTodoError() {
-        JOptionPane.showMessageDialog(PANEL, Translations.get("tabs.todo.no_empty")); // TODO
+        JOptionPane.showMessageDialog(PANEL, Translations.get("tabs.todo.no_empty"));
     }
 
     private void refreshList() {
         listPanel.removeAll();
 
         if (todos.isEmpty()) {
-            JLabel empty = new JLabel(Translations.get("tabs.todo.empty_list")); // TODO
+            JLabel empty = new JLabel(Translations.get("tabs.todo.empty_list"));
             listPanel.add(empty);
         } else {
             for (TodoItem todo : todos) if (todo.pinned) addTodoToList(todo);

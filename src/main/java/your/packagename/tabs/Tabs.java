@@ -11,7 +11,7 @@ public class Tabs {
     private static final RegistryList<Tab> LIST = new RegistryList<>();
 
     // example tab
-    public static final Tab TODO_TAB = LIST.add(new Tab(new ResourceLocation(TodoMod.MOD_ID, "todo_tab"), "TODOOOO", TodoTab.class));
+    public static final Tab TODO_TAB = LIST.add(new Tab(new ResourceLocation(TodoMod.MOD_ID, "todo_tab"), "TODO", TodoTab.class));
 
     public static void register(IRegistry<Tab> reg) {
         LIST.register(reg);

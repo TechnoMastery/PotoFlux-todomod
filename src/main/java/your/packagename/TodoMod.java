@@ -20,19 +20,18 @@ public class TodoMod {
         ModEventBus modEventBus = PotoFluxLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(RegisterTabsEvent.class, this::onRegisterTabs);
-        // modEventBus.addListener(RegisterLangEvent.class, this::onRegisterLang);
+        modEventBus.addListener(RegisterLangEvent.class, this::onRegisterLang);
     }
 
     private void onRegisterTabs(RegisterTabsEvent event) {
         Tabs.register(event.reg);
     }
-
     private void onRegisterLang(RegisterLangEvent event) {
-
+        event.registerSupportedLang(TodoMod.class);
     }
 
     public static Path getModDir() {
-        Path dir = PotoFlux.getProgramDir().resolve("mod-data").resolve("todomod");
+        Path dir = PotoFlux.getModDataDir().resolve("todomod");
         try {
             Files.createDirectories(dir);
         } catch (IOException ignored) {}
