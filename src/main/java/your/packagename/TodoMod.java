@@ -31,7 +31,7 @@ public class TodoMod {
     }
 
     public static Path getModDir() {
-        Path dir = PotoFlux.getModDataDir().resolve("todomod");
+        Path dir = PotoFlux.getModDataDir().resolve(MOD_ID);
         try {
             Files.createDirectories(dir);
         } catch (IOException ignored) {}
