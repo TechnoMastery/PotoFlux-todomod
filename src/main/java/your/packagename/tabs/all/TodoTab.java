@@ -88,7 +88,7 @@ public class TodoTab extends BaseTab {
 
     @Override
     protected String getTitle() {
-        return "TODO";
+        return Translations.get("tabs.todo.name");
     }
 
     private void clearAll() {
@@ -196,7 +196,7 @@ public class TodoTab extends BaseTab {
 
     private void openTodoSettings(TodoItem todo) {
         // --- modal window ---
-        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(PANEL), Translations.get("tabs.todo.edit.title"), true); // TODO
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(PANEL), Translations.get("tabs.todo.edit.title"), true);
         dialog.setLayout(new BorderLayout());
         dialog.setSize(300, 260);
         dialog.setLocationRelativeTo(PANEL);
@@ -213,23 +213,23 @@ public class TodoTab extends BaseTab {
         content.add(Box.createVerticalStrut(10));
 
         // checkbox - copy actual state
-        JCheckBox doneCheck = new JCheckBox(Translations.get("tabs.todo.done")); // TODO
+        JCheckBox doneCheck = new JCheckBox(Translations.get("tabs.todo.done"));
         doneCheck.setSelected(todo.done);
         doneCheck.setAlignmentX(Component.CENTER_ALIGNMENT);
         doneCheck.add(Box.createVerticalStrut(10));
 
         // pine check
-        JCheckBox pineCheck = new JCheckBox(Translations.get("tabs.todo.pinned")); // TODO
+        JCheckBox pineCheck = new JCheckBox(Translations.get("tabs.todo.pinned"));
         pineCheck.setSelected(todo.pinned);
         pineCheck.setAlignmentX(Component.CENTER_ALIGNMENT);
         content.add(pineCheck);
         content.add(Box.createVerticalStrut(10));
 
         // rename button
-        JButton renameButton = new JButton(Translations.get("tabs.todo.rename")); // TODO
+        JButton renameButton = new JButton(Translations.get("tabs.todo.rename"));
         renameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         renameButton.addActionListener(e -> {
-            String newName = JOptionPane.showInputDialog(dialog, Translations.get("tabs.todo.rename.prompt"), todo.text); // TODO
+            String newName = JOptionPane.showInputDialog(dialog, Translations.get("tabs.todo.rename.prompt"), todo.text);
             newName = removeProhibitedChar(newName);
             if (!newName.trim().isEmpty()) title.setText(escapeHtml(newName.trim()));
         });
@@ -237,12 +237,12 @@ public class TodoTab extends BaseTab {
         content.add(Box.createVerticalStrut(10));
 
         // delete button
-        JButton deleteButton = new JButton(Translations.get("tabs.todo.delete")); // TODO
+        JButton deleteButton = new JButton(Translations.get("tabs.todo.delete"));
         deleteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         deleteButton.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(dialog,
-                    Translations.get("tabs.todo.delete.confirm") + "\n\"" + todo.text + "\" ?", // TODO
-                    Translations.get("tabs.todo.delete.title"), // TODO
+                    Translations.get("tabs.todo.delete.confirm") + "\n\"" + todo.text + "\" ?",
+                    Translations.get("tabs.todo.delete.title"),
                     JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.WARNING_MESSAGE);
             if (confirm == JOptionPane.OK_OPTION) {
@@ -259,8 +259,8 @@ public class TodoTab extends BaseTab {
 
         // ok - cancel
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton okButton = new JButton(Translations.get("common.validate")); // TODO
-        JButton cancelButton = new JButton(Translations.get("common.cancel")); // TODO
+        JButton okButton = new JButton(Translations.get("common.validate"));
+        JButton cancelButton = new JButton(Translations.get("common.cancel"));
 
         okButton.addActionListener(e -> {
             todo.text = title.getText();
