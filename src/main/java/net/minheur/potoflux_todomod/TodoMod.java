@@ -1,4 +1,4 @@
-package your.packagename;
+package net.minheur.potoflux_todomod;
 
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
@@ -6,7 +6,7 @@ import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
-import your.packagename.tabs.Tabs;
+import net.minheur.potoflux_todomod.tabs.Tabs;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,13 +1,12 @@
-package your.packagename.tabs;
+package net.minheur.potoflux_todomod.tabs;
 
 import net.minheur.potoflux.registry.IRegistry;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.tabs.Tab;
-import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
-import your.packagename.TodoMod;
-import your.packagename.tabs.all.TodoTab;
+import net.minheur.potoflux_todomod.TodoMod;
+import net.minheur.potoflux_todomod.tabs.all.TodoTab;
 
 public class Tabs {
     private static final RegistryList<Tab> LIST = new RegistryList<>();

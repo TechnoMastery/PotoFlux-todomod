@@ -1,11 +1,11 @@
-package your.packagename.tabs.all;
+package net.minheur.potoflux_todomod.tabs.all;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.InputWithCheckboxResult;
-import your.packagename.TodoMod;
+import net.minheur.potoflux_todomod.TodoMod;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
