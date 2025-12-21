@@ -45,7 +45,7 @@ public class TodoTranslations extends AbstractTranslationsRegistry {
                 .fr("Voulez-vous vraiment supprimer cette tache ?");
         addTodoTab("delete", "title")
                 .en("Delete task")
-                .fr("Supprier la tache");
+                .fr("Supprimer la tache");
     }
 
     // tabs helper
