@@ -20,13 +20,10 @@ public class TodoMod {
     public TodoMod() {
         ModEventBus modEventBus = PotoFluxLoadingContext.get().getModEventBus();
 
-        modEventBus.addListener(RegisterTabsEvent.class, this::onRegisterTabs);
-        modEventBus.addListener(RegisterLangEvent.class, this::onRegisterLang);
+        modEventBus.addListener(this::onRegisterLang);
+        modEventBus.addListener(Tabs::register);
     }
 
-    private void onRegisterTabs(RegisterTabsEvent event) {
-        Tabs.register(event.reg);
-    }
     private void onRegisterLang(RegisterLangEvent event) {
         event.registerLang(new TodoTranslations());
     }
