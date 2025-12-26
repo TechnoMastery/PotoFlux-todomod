@@ -36,4 +36,6 @@ tasks.register("run", JavaExec) {
     doLast {
         println("PotoFlux launched")
     }
+
+    args("devEnv")
 }
