@@ -22,7 +22,7 @@ dependencies {
     implementation 'com.formdev:flatlaf:3.3'
 
     // PotoFlux
-    implementation name: 'PotoFlux-6.1'
+    implementation name: 'PotoFlux-6.5'
 }
 
 processResources {
