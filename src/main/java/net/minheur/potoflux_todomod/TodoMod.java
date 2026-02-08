@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-@Mod(modId = TodoMod.MOD_ID, version = "2.0", compatibleVersions = {"6.1"})
+@Mod(modId = TodoMod.MOD_ID, version = "3.0", compatibleVersions = {"6.5"})
 public class TodoMod {
     public static final String MOD_ID = "todomod";
 
@@ -42,7 +42,7 @@ public class TodoMod {
     public static String getVersion() {
         try {
             Properties props = new Properties();
-            props.load(TodoMod.class.getResourceAsStream("/version.properties"));
+            props.load(TodoMod.class.getResourceAsStream("/modVersion.properties"));
 
             return props.getProperty("version");
         } catch (IOException e) {
