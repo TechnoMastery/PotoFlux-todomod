@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Mod(modId = TodoMod.MOD_ID)
+@Mod(modId = TodoMod.MOD_ID, version = "1.3", compatibleVersionUrl = "https://technomastery.github.io/PotoFluxAppData/modVersions/todomod.json")
 public class TodoMod {
     public static final String MOD_ID = "todomod";
 
