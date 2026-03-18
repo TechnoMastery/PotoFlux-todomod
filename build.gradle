@@ -12,6 +12,14 @@ repositories {
     }
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
@@ -29,12 +37,47 @@ test {
     useJUnitPlatform()
 }
 
+processResources {
+    filesMatching("modVersion.properties") {
+        expand "version": version
+    }
+}
+
+build.dependsOn jar
+
+tasks.named("sourcesJar") {
+    dependsOn(generateModVersionProperties)
+
+    exclude("**/*.json", "**/*.toml", "**/*.lang")
+}
+
+tasks.register("generateModVersionProperties") {
+    def outputDir = file("$buildDir/generated/resources")
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        def file = new File(outputDir, "modVersion.properties")
+        file.text = "version=${project.version}"
+    }
+}
+
+sourceSets.main.resources.srcDir("$buildDir/generated/resources")
+
+tasks.processResources.dependsOn(generateModVersionProperties)
+
+tasks.named("sourcesJar") {
+    dependsOn(generateModVersionProperties)
+
+    exclude("**/*.json", "**/*.toml", "**/*.lang")
+}
+
 tasks.register("run", JavaExec) {
     group = "potoflux"
     description = "Run PotoFlux"
+
     classpath = sourceSets.main.runtimeClasspath
     mainClass.set("net.minheur.potoflux.PotoFlux")
-    doLast {
-        println("PotoFlux launched")
-    }
+
+    args("devEnv")
 }
