@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-@Mod(modId = TodoMod.MOD_ID, version = "1.3", compatibleVersionUrl = "https://technomastery.github.io/PotoFluxAppData/modVersions/todomod.json")
+@Mod(modId = TodoMod.MOD_ID, version = "2.1", compatibleVersionUrl = "https://technomastery.github.io/PotoFluxAppData/modVersions/todomod.json")
 public class TodoMod {
     public static final String MOD_ID = "todomod";
 
